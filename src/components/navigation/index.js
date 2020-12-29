@@ -25,12 +25,9 @@ const TabNavigator =()=> {
           backgroundColor: '#333',
           height:78
         }
-        
       }} >
          <Tab.Screen name="HomePage" component={HomePage} options={{   tabBarIcon: ()=> <View style={{color:"white"}}>{car}</View> }} />
         <Tab.Screen name="Settings" component={Settings}  options={{tabBarIcon: ()=> <View style={{color:"white"}}>{settings}</View>}}/>
-       
-        {/* <Tab.Screen name="Настройки" component={AuthScreen}  options={{ tabBarIcon: ()=> <Text style={{color:"white", fontSize:25, fontFamily:"bold"}}>...</Text>}}/>  */}
    </Tab.Navigator>
   )
 }  

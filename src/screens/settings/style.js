@@ -27,7 +27,6 @@ export default StyleSheet.create({
         marginVertical:20,
         paddingHorizontal:20,
         fontWeight:"700",
-        fontFamily:"medium", 
         fontSize:15, 
         lineHeight:16
 
