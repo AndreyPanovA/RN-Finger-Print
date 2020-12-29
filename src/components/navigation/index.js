@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import CarInfoPage from "../../pages/car-info-page"
 import {AuthPage, HomePage} from "../../screens"
+import { connect } from 'react-redux';
 
 
 
@@ -19,9 +20,10 @@ const RootStack = createStackNavigator();
 const HomePages = ()=><Text>Coool</Text>
 const AppNavigator = (props) => {
   const {isAuth=true, auth} = props
-  // console.log(props.isAuth, "isAuth")
+  console.log(props.isAuth, "isAuth")
+
   return (
-    <RootStack.Navigator initialRouteName="HomePage">
+    <RootStack.Navigator initialRouteName="AuthPage">
         <>
         {/* {
         !auth ? ( 
@@ -43,19 +45,28 @@ const AppNavigator = (props) => {
           component={MainStackNavigator}
           options={{ headerShown: false }}
                 />)}   */}
-          <RootStack.Screen
+              
+       { 
+
+        !isAuth ?
+       <RootStack.Screen
             name="AuthPage"
             component={AuthPage}
             options={{ headerShown: false }}/>
-    
+    :
         <RootStack.Screen
             name="HomePage"
             component={HomePage}
             options={{ headerShown: false }}/>
+    
+        }
         </>
     </RootStack.Navigator>
   );
 };
 
 
-export default AppNavigator
+
+export default connect((state)=> ({
+  isAuth: state.auth.isAuth
+}))(AppNavigator);

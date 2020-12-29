@@ -23,7 +23,6 @@ import * as LocalAuthentication from 'expo-local-authentication';
           authenticated: false,
           failedCount: 0
       }
-
       this.setModalVisible = this.setModalVisible.bind(this);
       this.closeModal = this.closeModal.bind(this);
   }
@@ -93,7 +92,6 @@ import * as LocalAuthentication from 'expo-local-authentication';
 }
 const styles = StyleSheet.create({
     modal: {
-
         flex: 1,
         height: '100%',
         width: '100%',

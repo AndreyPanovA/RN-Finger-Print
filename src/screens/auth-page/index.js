@@ -9,17 +9,17 @@ import {
   Button, 
   StyleSheet,
   Dimensions,
-  ImageBackground
+  ImageBackground,
+  Alert
 } from 'react-native';
 
 const { width,height } = Dimensions.get('window');
-
-
-// 
 import * as LocalAuthentication from 'expo-local-authentication';
+import { connect } from 'react-redux';
 
+import {authCheck} from "../../redux/reducers/auth"
 
-// 
+ 
 
 
 class AuthPage extends Component {
@@ -34,7 +34,21 @@ class AuthPage extends Component {
       fingerprint:false,
       modalVisible: true,
       authenticated: false,
-      failedCount: 0
+      failedCount: 0,
+      enterCode: ["","","",""], 
+      code:[1,2,3,4],
+      numbers: [
+        {id:1},
+        {id:2},
+        {id:3},
+        {id:4},
+        {id:5},
+        {id:6},
+        {id:7},
+        {id:8},
+        {id:9},
+        {id:0}
+      ]
     };
   }
 
@@ -47,6 +61,39 @@ class AuthPage extends Component {
 
 closeModal() {
     this.setModalVisible(false);
+}
+onPressNumber = async (val)=> {
+  const {enterCode:code, code:enter} = this.state
+  for (let i=0;i<code.length;i++) {
+    if(code[i]=="") {
+      code[i]=val
+      if (code.join("")==enter.join("")) {
+        this.props.authCheck()
+      }
+      break
+    }
+  }
+
+  this.setState((prev)=> ({
+    ...prev,
+    enterCode:code
+  }))
+
+}
+onDeleteNumber = async ()=> {
+  const {enterCode:code} = this.state
+  for (let i=code.length-1;i>=0;i--) {
+    if(code[i]!=="") {
+      code[i]=""
+      break
+    }
+  }
+
+  this.setState((prev)=> ({
+    ...prev,
+    enterCode:code
+  }))
+
 }
 
 scanFingerPrint = async () => {
@@ -83,22 +130,32 @@ scanFingerPrint = async () => {
       <View style={cls.container}>
           <ImageBackground  blurRadius={30}  source={require("../../../assets/back.jpg")} style={{position:"absolute", width:width, height:height}}/>
         <Text style={cls.heading}>
-          React Native Fingerprint Scanner
+          Приложение {this.state.enterCode.map((el)=>el)}
         </Text>
+        <View style={cls.littleBtnContainer}>
+        {/* littleBtnActive */}
+          {Array(4).fill("").map((el,idx)=> {
+            // const st = this.state.enterCode[idx]=="" ? cls.littleBtn: cls.littleBtnActive 
+            return <View style={this.state.enterCode[idx]=="" ? cls.littleBtn: cls.littleBtnActive } key={idx}></View>
+          })}
+         
+       
+        </View>
         <Text style={cls.subheading}>
          
         </Text>
         <View style={cls.btnsContainer}>
           {Array(9).fill("").map((el,idx)=> {
             return (
-              <TouchableOpacity style={cls.numberBtn}>
+              
+              <TouchableOpacity style={cls.numberBtn} onPress={()=>this.onPressNumber(idx+1)}>
                 <Text>{idx +1}</Text>
             </TouchableOpacity>
             )
           })}
           <View style={{flexDirection:"row", alignItems:"center"}}>
-          <TouchableOpacity style={{...cls.numberBtn, backgroundColor:"transparent"}}>
-                <Text>Back</Text>
+          <TouchableOpacity style={{...cls.numberBtn, backgroundColor:"transparent"}} onPress={this.onDeleteNumber}>
+                <Text style={{color:"white"}}>Back</Text>
             </TouchableOpacity>
           <TouchableOpacity style={cls.numberBtn}>
                 <Text>{0}</Text>
@@ -112,8 +169,10 @@ scanFingerPrint = async () => {
           </TouchableOpacity>
           </View>
           {<Text>Super {JSON.stringify(this.state.authenticated)}</Text>}
-           
+          {<Text>Super {JSON.stringify(this.props.isAuth)}</Text>}
+
         </View>
+     
 
       
       
@@ -123,8 +182,29 @@ scanFingerPrint = async () => {
 }
 const cls = StyleSheet.create({
 
+  littleBtnContainer: {
+    flexDirection:"row", 
+    justifyContent:"center",
+    alignItems:"center",
 
-
+  },
+  littleBtn: {
+    width:13, 
+    height:13, 
+    borderColor:"white", 
+    borderWidth:1, 
+    borderRadius:16,
+    margin:5
+  },
+  littleBtnActive: {
+    width:13, 
+    height:13, 
+    borderColor:"white", 
+    borderWidth:1, 
+    borderRadius:16, 
+    margin:5,
+    backgroundColor:"white"
+  },
   btnsContainer: {
     width:314, 
     height:370,
@@ -148,7 +228,8 @@ const cls = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#00a4de'
+    backgroundColor: '#00a4de', 
+    paddingBottom:100
   },
   heading: {
     color: '#ffffff',
@@ -179,4 +260,6 @@ const cls = StyleSheet.create({
   }
 
 })
-export default AuthPage;
+export default connect((state)=> ({
+  isAuth: state.auth.isAuth
+}),{authCheck})(AuthPage);
