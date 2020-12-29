@@ -99,14 +99,10 @@ onDeleteNumber = async ()=> {
 }
 
 scanFingerPrint = async () => {
-    console.log("scan fingerprint");
     this.setState({ failedCount: 0 });
     try {
-        console.log("before results");
         const results = await LocalAuthentication.authenticateAsync();
-        console.log("after results");
         if (results.success) {
-            // this.props.onSuccess(true);
             this.setState((prev)=> {
               return {
                 ...prev,
@@ -127,18 +123,14 @@ scanFingerPrint = async () => {
 
   render() {
     const { errorMessage, biometric, popupShowed } = this.state;
-  // 
     return (
- 
       <View style={cls.container}>
           <ImageBackground  blurRadius={30}  source={require("../../../assets/back.jpg")} style={{position:"absolute", width:width, height:height}}/>
         <Text style={cls.heading}>
           Приложение {this.state.enterCode.map((el)=>el)}
         </Text>
         <View style={cls.littleBtnContainer}>
-        {/* littleBtnActive */}
           {Array(4).fill("").map((el,idx)=> {
-            // const st = this.state.enterCode[idx]=="" ? cls.littleBtn: cls.littleBtnActive 
             return <View style={this.state.enterCode[idx]=="" ? cls.littleBtn: cls.littleBtnActive } key={idx}></View>
           })}
          

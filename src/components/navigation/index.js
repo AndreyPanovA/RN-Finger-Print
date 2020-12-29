@@ -5,23 +5,39 @@ import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import CarInfoPage from "../../pages/car-info-page"
-import {AuthPage, HomePage} from "../../screens"
+import {AuthPage, HomePage,Settings} from "../../screens"
 import { connect } from 'react-redux';
+import {car,settings} from "../../icons"
 
 
 
 
 const RootStack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const SettingsStack = createStackNavigator()
 
-// HistoryItem
 
-
+const TabNavigator =()=> {
+  return (
+    <Tab.Navigator    initialRouteName="HomePage"
+      tabBarOptions={{
+        style:{
+          backgroundColor: '#333',
+          height:78
+        }
+        
+      }} >
+         <Tab.Screen name="HomePage" component={HomePage} options={{   tabBarIcon: ()=> <View style={{color:"white"}}>{car}</View> }} />
+        <Tab.Screen name="Settings" component={Settings}  options={{tabBarIcon: ()=> <View style={{color:"white"}}>{settings}</View>}}/>
+       
+        {/* <Tab.Screen name="Настройки" component={AuthScreen}  options={{ tabBarIcon: ()=> <Text style={{color:"white", fontSize:25, fontFamily:"bold"}}>...</Text>}}/>  */}
+   </Tab.Navigator>
+  )
+}  
 
 const HomePages = ()=><Text>Coool</Text>
 const AppNavigator = (props) => {
   const {isAuth=true, auth} = props
-  console.log(props.isAuth, "isAuth")
-
   return (
     <RootStack.Navigator initialRouteName="AuthPage">
         <>
@@ -35,8 +51,8 @@ const AppNavigator = (props) => {
             options={{ headerShown: false }}/>
     :
         <RootStack.Screen
-            name="HomePage"
-            component={HomePage}
+            name="TabNavigator"
+            component={TabNavigator}
             options={{ headerShown: false }}/>
     
         }

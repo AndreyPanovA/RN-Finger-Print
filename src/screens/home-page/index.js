@@ -38,7 +38,6 @@ class HomePage extends Component {
 
   render() {
     const { errorMessage, biometric, popupShowed } = this.state;
-  // 
     return (
  
       <View style={cls.container}>
