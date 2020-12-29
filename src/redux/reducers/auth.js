@@ -211,17 +211,8 @@ export const setFIO = (params) => async (dispatch, getState) => {
 export const logout = () => async (dispatch, getState) => {
     const { isAuth } = getState().auth;
     try {
-        // await API.authLogout();
-        // await helper.removeToken();
         batch(()=>{
-            // dispatch(resetTokens());
             dispatch(checkIsAuth(!isAuth));
-            // dispatch(setProfile({}));
-            // dispatch(setUserRole([]));
-            // dispatch(resetData());
-            // dispatch(setAgentId(null));
-            // dispatch(_resetStructureAll());
-            // dispatch(setIsRequest(true));
         });
     } catch (err) {
         // await helper.removeToken();

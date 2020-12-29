@@ -25,27 +25,7 @@ const AppNavigator = (props) => {
   return (
     <RootStack.Navigator initialRouteName="AuthPage">
         <>
-        {/* {
-        !auth ? ( 
-          <>
-         <RootStack.Screen
-            name="Авторизация"
-            component={Auth}
-            options={{ headerShown: false }}
-              /> 
-              <RootStack.Screen
-              name="Registration"
-              component={Registration}
-              options={{ headerShown: true, title:"Регистрация" }}
-                /></>)
-          
-          :(   
-        <RootStack.Screen
-          name="MainStackNavigator"
-          component={MainStackNavigator}
-          options={{ headerShown: false }}
-                />)}   */}
-              
+      
        { 
 
         !isAuth ?

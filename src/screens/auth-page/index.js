@@ -69,6 +69,8 @@ onPressNumber = async (val)=> {
       code[i]=val
       if (code.join("")==enter.join("")) {
         this.props.authCheck()
+      }else {
+
       }
       break
     }
@@ -113,6 +115,7 @@ scanFingerPrint = async () => {
                 failedCount: 0,
             }
             });
+            this.props.authCheck()
         } else {
             this.setState({ failedCount: this.state.failedCount + 1 });
         }
